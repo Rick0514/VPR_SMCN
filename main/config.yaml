@@ -1,0 +1,146 @@
+# 说明：
+# 目录如下（必须先创建如下目录）：
+# datasets
+# - xxx （装有图片的子目录）
+# - xxx （装有图片的子目录）
+# model （放模型）
+# result （保存结果）
+# config.yaml
+# utils.py
+# netvlad.py
+# make_desc.py
+
+# 目前只有netvlad模型，改变模型需要修改utils.py，否则不用动utils.py
+# config.yaml是配置文件，需要根据自己的情况改变相应的参数
+# python读yaml需要import yaml，如果没有该模块执行：
+# pip3 install pyyaml
+# netvlad.py不需要动
+# 生成描述子直接运行make_desc.py, 描述子会以.npy文件保存在result文件夹下
+
+
+#---------2021.4.8 新增---------------
+# evaluate.py
+# make_desc1.py
+# eval_desc1.py
+# 针对牛津巴黎数据集的说明
+# 先在config.yaml配置好参数，需要配置oxford_dataset/net/evaluate
+# 运行make_desc1.py得到整个文件夹的描述子，保存在./result
+# 运行eval_desc1.py得到map, precision@N, recall@N三个指标
+
+
+
+# 数据集参数
+# subdir: 子目录
+# postfix, numformat, suffix
+# 如果文件夹中图片命名为： 'image0005.png'
+# 则 postfix: 'image' numformat: '%04d' suffix: '.png'
+
+# dataset:
+#     root: './datasets'
+#     name: 'gardens_point'
+#     subdir:
+#         -  'day_left'
+#         -  'day_right'
+#         -  'night_right'
+#     postfix: 'Image'
+#     numformat: '%03d'
+#     suffix: '.jpg'
+#     err: 3
+
+#     resize:
+#         h: 224
+#         w: 224
+
+# dataset:
+#     root: './datasets'
+#     name: 'nordland'
+#     subdir:
+#         -  'spring'
+#         -  'summer'
+#         -  'fall'
+#         -  'winter'
+#     postfix: ''
+#     numformat: '%d'
+#     suffix: '.png'
+#     err: 9
+
+#     resize:
+#         h: 224
+#         w: 224
+
+# dataset:
+#     root: './datasets'
+#     name: 'ox_robotcar'
+#     subdir:
+#         -  'day'
+#         -  'night'
+#         -  'snow'
+#     postfix: ''
+#     numformat: '%d'
+#     suffix: '.png'
+#     err: 5
+
+#     resize:
+#         h: 224
+#         w: 224
+
+dataset:
+    root: './datasets'
+    name: 'scut'
+    subdir:
+        -  'day'
+        -  'dawn'
+    postfix: ''
+    numformat: '%d'
+    suffix: '.jpg'
+    err: 1
+
+    resize:
+        h: 224
+        w: 224
+
+# 伦敦巴黎建筑数据集
+# dir: 图片目录，里面是图片
+# gnd: ground truth文件前缀
+oxford_dataset:
+    name: 'roxford5k'   # or 'rparis6k'
+    dir: './datasets'
+    gnd: './gnd_'
+
+    resize:
+        h: 224
+        w: 224
+
+# 网络参数
+# threads: 加载数据集的cpu线程数
+# net_name: 网络名字，要和下面配置其参数的键值相同
+# save_desc: 描述子保存文件夹，保存名字自动以 'subdir_desc.npz'保存
+# pca_flag: 是否使用pca降维，最好降维，否则保存的描述子文件很大
+# pca_dims: pca降维维数，注意要符合1～min(n, m)
+
+# net:
+#     nGPU: 1
+#     threads: 12
+#     batch_size: 16
+#     net_name: 'alexnet'
+#     resume_model: './model/alexnet.pth'
+#     save_desc: './desc'
+#     pca_flag: false
+#     pca_dims: 128
+
+net:
+    nGPU: 1
+    threads: 12
+    batch_size: 16
+    net_name: 'netvlad'
+    resume_model: './model/netvlad.pth'
+    save_desc: './desc'
+    pca_flag: false
+    pca_dims: 128
+
+
+# topN 决定了输出的 precision@N recall@N
+evaluate:
+    topN: [1, 5, 10]
+    compare_subdir: [0, 1]
+    save_res: './result'
