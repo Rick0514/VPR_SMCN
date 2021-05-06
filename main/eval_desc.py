@@ -4,7 +4,7 @@ import pickle
 from os import listdir
 from os.path import join
 import faiss
-import utils
+import main.utils as utils
 
 # load global config yaml
 yaml_path = './config.yaml'

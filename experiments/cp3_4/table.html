@@ -1,0 +1,23 @@
+\begin{table*}
+\scriptsize
+\setlength\tabcolsep{4pt}
+\centering
+\caption{EXPERIMENTAL RESULTS FOR METHODS PROPOSED WITH ALEXNET OR NETVLAD FRONT-END. METRICS INCLUDE AVERAGE PRECISION AND RUNTIME. BEST VALUES PER ROW ARE BOLD.}
+\label{tab:my-table}
+\begin{tabular}{lll|ccccccc|cccccccl}
+\hline
+\multirow{3}{*}{\textbf{Dataset}} & \multirow{3}{*}{\textbf{Database}} & \multirow{3}{*}{\textbf{Query}} & \multicolumn{7}{c|}{\textbf{AlexNet}} & \multicolumn{7}{c}{\textbf{NetVLAD}} &  \\
+ &  &  & \textbf{Pairwise} & \multicolumn{2}{c}{\textbf{MCN}} & \multicolumn{2}{c}{\textbf{SMCN}(ours)} & \multicolumn{2}{c|}{\textbf{SMCNTF}(ours)} & \textbf{Pairwise} & \multicolumn{2}{c}{\textbf{MCN}} & \multicolumn{2}{c}{\textbf{SMCN}(ours)} & \multicolumn{2}{c}{\textbf{SMCNTF}(ours)} &  \\ \cline{4-18}
+ &  &  & AP & AP & Runtime & AP & Runtime/s & AP & Runtime/s & AP & AP & Runtime/s & AP & Runtime/s & AP & Runtime/s &  \\ \hline
+\multirow{4}{*}{Nordland} & spring & winter & 0.24 & 0.28 & 1441.277 & 0.53 & 3.031 & \textbf{0.60} & 4.101 & 0.09 & 0.11 & 1433.413 & 0.20 & 2.405 & \textbf{0.27} & 3.751 &  \\
+ & summer & winter & 0.20 & 0.21 & 1372.501 & 0.43 & 3.023 & \textbf{0.53} & 4.386 & 0.09 & 0.10 & 1327.111 & 0.21 & 2.315 & \textbf{0.27} & 3.444 &  \\
+ & fall & winter & 0.23 & 0.26 & 1331.676 & 0.40 & 3.050 & \textbf{0.49} & 4.728 & 0.10 & 0.13 & 1436.419 & 0.24 & 2.328 & \textbf{0.32} & 3.631 &  \\
+ & spring & fall & 0.36 & 0.39 & 1303.696 & 0.54 & 3.044 & \textbf{0.57} & 4.544 & 0.17 & 0.21 & 1415.576 & 0.30 & 2.394 & \textbf{0.39} & 4.098 &  \\ \hline
+\multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}Gardens\\ Point\end{tabular}} & day\_left & day\_right & 0.44 & 0.49 & 54.718 & 0.55 & 0.190 & \textbf{0.59} & 0.219 & 0.59 & \textbf{0.73} & 31.137 & 0.68 & 0.140 & 0.72 & 0.154 &  \\
+ & day\_right & night\_right & 0.43 & 0.48 & 35.756 & 0.61 & 0.190 & \textbf{0.65} & 0.203 & 0.45 & 0.54 & 30.572 & 0.58 & 0.130 & \textbf{0.62} & 0.147 &  \\
+ & day\_left & night\_right & 0.21 & 0.20 & 36.662 & 0.31 & 0.191 & \textbf{0.34} & 0.213 & 0.31 & 0.37 & 31.388 & 0.42 & 0.133 & \textbf{0.48} & 0.148 &  \\ \hline
+\multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}Oxford \\ Robotcar\end{tabular}} & day & night & 0.12 & 0.17 & 82.687 & 0.19 & 0.635 & \textbf{0.29} & 0.780 & 0.07 & 0.09 & 72.226 & 0.08 & 0.506 & \textbf{0.13} & 0.636 &  \\
+ & day & snow & 0.29 & 0.37 & 73.714 & 0.37 & 0.607 & \textbf{0.47} & 0.739 & 0.33 & 0.40 & 89.735 & 0.38 & 0.514 & \textbf{0.46} & 0.663 &  \\
+ & snow & night & 0.09 & 0.10 & 162.619 & 0.15 & 0.913 & \textbf{0.26} & 1.172 & 0.05 & 0.05 & 127.393 & 0.07 & 0.758 & \textbf{0.12} & 0.993 &  \\ \hline
+\end{tabular}
+\end{table*}

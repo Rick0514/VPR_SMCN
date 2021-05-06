@@ -6,7 +6,7 @@ from torch.autograd import Variable
 
 from collections import namedtuple
 import numpy as np
-import utils
+import main.utils as utils
 import time
 from os.path import join, exists, isfile
 import yaml

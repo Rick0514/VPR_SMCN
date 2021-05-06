@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import utils
+import main.utils as utils
 import time
 
 # ---------------------------- 说明 ----------------------------------

@@ -1,6 +1,6 @@
 import time
 import numpy as np
-import utils
+import main.utils as utils
 
 # ---------------------------- 说明 ----------------------------------
 # SMCN和SMCNTF算法
@@ -91,7 +91,7 @@ def refreshLoss(S_in, S, candidate, err):
     return rfS, pathid
 
 
-def runSMCN(dbFeat, qFeat, gt, SMCN_params, flag):
+def runSMCN(dbFeat, qFeat, gt, SMCN_params, flag=None):
     st = time.time()
     n1 = np.linalg.norm(dbFeat, axis=1).reshape((-1, 1))
     n2 = np.linalg.norm(qFeat, axis=1).reshape((1, -1))
@@ -115,7 +115,7 @@ def runSMCN(dbFeat, qFeat, gt, SMCN_params, flag):
         return ap, time_cost
 
 
-def runSMCNTF(dbFeat, qFeat, gt, SMCN_params, err, flag):
+def runSMCNTF(dbFeat, qFeat, gt, SMCN_params, err, flag=None):
 
     st = time.time()
     n1 = np.linalg.norm(dbFeat, axis=1).reshape((-1, 1))
