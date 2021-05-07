@@ -14,14 +14,12 @@ In the experiment, our methods are compared with MCN of python version, which is
 
 * Nordland
 <center class="half">
-<img src="./img/mcn_nl_matlab.jpg" height=300>
-<img src="./img/mcn_nl_python.png" height=300>
+<img src="./img/mcn_nl_matlab.jpg" height=300><img src="./img/mcn_nl_python.png" height=300>
 </center>
 
 * Gardens Point
 <center class="half">
-<img src="./img/mcn_gp_matlab.jpg" height=300>
-<img src="./img/mcn_gp_python.png" height=300>
+<img src="./img/mcn_gp_matlab.jpg" height=300><img src="./img/mcn_gp_python.png" height=300>
 </center>
 
 Our implementation even performs a bit better than the original version, as we can infer from figure above.
