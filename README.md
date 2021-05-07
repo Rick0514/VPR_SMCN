@@ -14,8 +14,8 @@ In the experiment, our methods are compared with MCN of python version, which is
 
 * Nordland
 <center class="half">
-<img src="./img/mcn_nl_matlab.jpg" height=200><img src="./img/mcn_nl_python.png" height=200>
-</center>
+<img src="./img/mcn_nl_matlab.jpg" height=300><img src="./img/mcn_nl_python.png" height=300></center>
+
 
 * Gardens Point
 <center class="half">
