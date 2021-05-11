@@ -1,5 +1,5 @@
 import numpy as np
-import utils
+import main.utils as utils
 import matplotlib.pyplot as plt
 from scipy.io import loadmat
 import cv2

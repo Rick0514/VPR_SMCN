@@ -1,4 +1,10 @@
-**/*.jpg
-**/*.png
 **/*.pkl
 **/*.npy
+**/*.mat
+**/*.npz
+
+!/img/*
+
+/experiments/**/*.jpg
+/experiments/**/*.png
+
