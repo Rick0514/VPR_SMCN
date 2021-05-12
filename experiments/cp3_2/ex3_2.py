@@ -3,9 +3,8 @@ import yaml
 import pickle
 from os import listdir
 from os.path import join
-import faiss
-import utils
-import SMCN
+import main.utils as utils
+import main.SMCN as SMCN
 
 # ---------------------------- 说明 ----------------------------------
 # 候选矩阵有效性且给出候选个数的选择

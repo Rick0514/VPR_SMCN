@@ -17,21 +17,21 @@ import pickle
 # -------------------------------------------------------------------
 
 # dataset root dir
-root = 'E:/project/scut/graduation/datasets/nordland/'   #(*)
+root = 'E:/project/scut/graduation/datasets/oxford_robotcar/'   #(*)
 # load xxx.npz
-S_file = './vis3/nd_sumwin.npz'     #(*)
+S_file = './vis3/ox_sn.npz'     #(*)
 S = np.load(S_file)
 S_pw = S['S_pw']
 S_mcn = S['S_mcn']
 # use SeqSLAM2.0 toolbox from matlab, the similarity matrix has much nan value
-S_seq = loadmat('../cp3_4/seqslam/nd_sumwin.mat')['S']    #(*)
+S_seq = loadmat('../cp3_4/seqslam/ox_snownight.mat')['S']    #(*)
 tmp = np.isnan(S_seq)
 S_seq[tmp] = np.max(S_seq[~tmp])
 S_smcn = S['S_smcn']
 S_smcntf = S['S_smcntf']
 
-dbfile = 'summer/'     #(*)    database file
-qfile = 'winter/'     #(*)    query file
+dbfile = 'snow/'     #(*)    database file
+qfile = 'night/'     #(*)    query file
 dbn = len(os.listdir(root + dbfile))
 qn = len(os.listdir(root + qfile))
 qn = min(dbn, qn)
@@ -50,24 +50,20 @@ saveName = './vis3/' + root.split('/')[-2] + '.png'   #(*)
 ref_saveName = './vis3/ref_' + root.split('/')[-2] + '.png'    #(*)
 
 # err tolerance
-green_tolerance = 9     #(*)
+green_tolerance = 5     #(*)
 blue_tolerance = 2 * green_tolerance      #(*)
 
-# load groundtruth
-# if not the oxford robotcar dataset(or if not use gps as groundtruth)
-# uncomment following code
-gtg = utils.getGroundTruthMatrix(qn, green_tolerance)
-gtb = utils.getGroundTruthMatrix(qn, blue_tolerance)
+if root.endswith('robotcar/'):
+    db_gps = np.load(root + 'gps_snow.npy')
+    q_gps = np.load(root + 'gps_night.npy')
+    _, gtg = utils.getGpsGT(db_gps, q_gps, green_tolerance)
+    _, gtb = utils.getGpsGT(db_gps, q_gps, blue_tolerance)
+else:
+    gtg = utils.getGroundTruthMatrix(qn, green_tolerance)
+    gtb = utils.getGroundTruthMatrix(qn, blue_tolerance)
 
 gtlg = list(np.where(gtg[:, numTopick])[0])
 gtlb = list(np.where(gtb[:, numTopick])[0])
-
-# otherwise uncomment following code
-# r = '../../datasets/oxford_robotcar/'
-# db_gps = np.load(r + 'gps_snow.npy')
-# q_gps = np.load(r + 'gps_night.npy')
-# _, gtg = utils.getGpsGT(db_gps, q_gps, green_tolerance)
-# _, gtb = utils.getGpsGT(db_gps, q_gps, blue_tolerance)
 
 # color
 blue = np.array([[[255, 0, 0]]])
@@ -94,7 +90,7 @@ if root.endswith('scut/'):
 
 numMethods = 5      #(*)    how many methords to show
 
-# 一下代码一般不需要配置
+# following code doesn't need to change, unless you know how it works.
 # --------------------------draw--------------------------------
 pad = 7
 img_size = 120
@@ -198,11 +194,11 @@ vboard += (2*pad + img_size)
 
 if root.endswith('scut/'):
     numTopick *= 4
-ref_img = cv2.imread(root + qfile + img_format % numTopick)
+ref_img = cv2.imread(root + dbfile + img_format % numTopick)
 cv2.imshow('ref', ref_img)
 cv2.imshow('res', visImg)
 cv2.waitKey()
 cv2.destroyAllWindows()
 
-cv2.imwrite(ref_saveName, ref_img)
-cv2.imwrite(saveName, visImg)
+# cv2.imwrite(ref_saveName, ref_img)
+# cv2.imwrite(saveName, visImg)
