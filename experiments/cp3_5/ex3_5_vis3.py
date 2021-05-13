@@ -30,6 +30,11 @@ S_seq[tmp] = np.max(S_seq[~tmp])
 S_smcn = S['S_smcn']
 S_smcntf = S['S_smcntf']
 
+with open('../cp3_4/s_dd.pkl', 'rb') as f:
+    _ = pickle.load(f)
+    _ = pickle.load(f)
+    S_dd = pickle.load(f)
+
 dbfile = 'snow/'     #(*)    database file
 qfile = 'night/'     #(*)    query file
 dbn = len(os.listdir(root + dbfile))
@@ -72,6 +77,7 @@ red = np.array([[[0, 0, 255]]])
 
 id_pw = np.argsort(-S_pw[:, numTopick])[:topPicToShow]
 id_mcn = np.argsort(-S_mcn[:, numTopick])[:topPicToShow]
+id_dd = np.argsort(-S_dd[:, numTopick])[:topPicToShow]
 id_smcn = np.argsort(-S_smcn[:, numTopick])[:topPicToShow]
 id_smcntf = np.argsort(S_smcntf[:, numTopick])[:topPicToShow]
 id_seq = np.argsort(S_seq[:, numTopick])[:topPicToShow]
@@ -81,14 +87,16 @@ real_id_mcn = np.copy(id_mcn)
 real_id_smcn = np.copy(id_smcn)
 real_id_smcntf = np.copy(id_smcntf)
 real_id_seq = np.copy(id_seq)
+real_id_dd = np.copy(id_dd)
 if root.endswith('scut/'):
     real_id_pw *= 4
     real_id_mcn *= 4
     real_id_smcn *= 4
     real_id_smcntf *= 4
     real_id_seq *= 4
+    real_id_dd *= 4
 
-numMethods = 5      #(*)    how many methords to show
+numMethods = 6      #(*)    how many methords to show
 
 # following code doesn't need to change, unless you know how it works.
 # --------------------------draw--------------------------------
@@ -156,6 +164,25 @@ vboard += (2*pad + img_size)
 
 hboard = 0
 for i in range(topPicToShow):
+    img = cv2.imread(root + qfile + img_format % real_id_dd[i])
+    img = cv2.resize(img, (img_size, img_size))
+    if id_dd[i] in gtlg:
+        color = green
+    elif id_dd[i] in gtlb:
+        color = blue
+    else:
+        color = red
+
+    visImg[vboard:vboard + 2 * pad + img_size,
+    hboard:hboard + 2 * pad + img_size, :] = color
+    visImg[vboard + pad:vboard + pad + img_size,
+    hboard + pad:hboard + pad + img_size:] = img
+    hboard += (2 * pad + img_size)
+
+vboard += (2*pad + img_size)
+
+hboard = 0
+for i in range(topPicToShow):
     img = cv2.imread(root + qfile + img_format % real_id_smcn[i])
     img = cv2.resize(img, (img_size, img_size))
     if id_smcn[i] in gtlg:
@@ -200,5 +227,5 @@ cv2.imshow('res', visImg)
 cv2.waitKey()
 cv2.destroyAllWindows()
 
-# cv2.imwrite(ref_saveName, ref_img)
-# cv2.imwrite(saveName, visImg)
+cv2.imwrite(ref_saveName, ref_img)
+cv2.imwrite(saveName, visImg)

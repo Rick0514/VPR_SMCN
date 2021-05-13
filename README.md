@@ -88,7 +88,10 @@ Take Nordland for example. You should put it in this way:
 
 **3. Extract descriptors from dataset**
 
-Front-end models used in paper are stored at [Google Drive](). You should download them and put them in ```/model```.
+Front-end models used in paper are stored at:
+NetVLAD --> [Google Drive](https://drive.google.com/open?id=17luTjZFCX639guSVy00OUtzfTQo4AMF2)
+AlexNet --> [link](https://download.pytorch.org/models/alexnet-owt-4df8aa71.pth)
+You should download them and put them in ```/model```.
 Then open ```main/config.yaml``` and specify parameters. Take nordland dataset and NetVLAD as example.
 ```
 --- config.yaml --- 
@@ -124,11 +127,12 @@ Finally you run ```main/make_desc.py```, the descriptors will be saved in ```des
 
 ### Experiments
 
+All experimental results files are available at [Google Drive](https://drive.google.com/drive/folders/1uvrauyCBi_SexnudkXthXUFEdBwLPzHm)
+
 **1. cp3_1**
 
 cp3_1 means the first experiment in chapter 3 of my undergraduate thesis(对应3.3.1 MCN存在问题的实验分析). At the same time, the result is also used in my paper(Sec. 4.3 Instability of MCN).
-```ex3_1.py``` shows how to use the code. The result file ```mcn.pkl``` is available at [Google Drive]().
-
+```ex3_1.py``` shows how to use the code.
 **2. cp3_2**
 
 cp3_2 corresponds to 3.3.2(候选矩阵的必要性).
@@ -163,6 +167,42 @@ cp4 simulate VPR on panoramic scene. ```ex4_1.py```对应4.3.1 环视数据集�
 
 
 ### Visualization
+
+cp3_5 contains the codes for visualization. Some figures are used in my undergraduate thesis.
+
+**1. ex3_5_vis1.py**
+
+This code is used for plotting PR curves. When you want to run this code, you should know where you store the similarity matrix(```*.npz or *.mat```) for different methods. Here are some demo.
+
+<p align="middle">
+<img src="./img/pr_nd.png" height=300>
+<img src="./img/pr_gp.png" height=300>
+<img src="./img/pr_ox.png" height=300>
+<img src="./img/pr_scut.png" height=300>
+</p>
+
+**2. ex3_5_vis2.py**
+
+This code visualizing top1 image retrieval. Use Gardens Point(day_left vs. night_right) with NetVLAD as demo. Some good and bad examples are shown below.
+
+**Good one**
+
+<img src="./img/vis2_good.png" height=60%>
+
+**Bad one**
+
+<img src="./img/vis2_bad.png" height=60%>
+
+**3. ex3_5_vis3.py**
+This code visualizing top10 image retrieval for one image. Use Oxford Robotcar(snow vs. night, really hard one so performance may be poor) with NetVLAD as demo. Some good and bad examples are shown below.
+
+**Good one**
+
+<img src="./img/vis3_good.png" height=60%>
+
+**Bad one**
+
+<img src="./img/vis3_bad.png" height=60%>
 
 ### Our Python Implementation of MCN vs. Original Implementation with Matlab 
 

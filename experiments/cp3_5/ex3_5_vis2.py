@@ -18,60 +18,75 @@ import pickle
 
 
 # dataset root dir
-root = '../../datasets/scut/'   #(*)
+root = 'E:/project/scut/graduation/datasets/gardens_point/'   #(*)
 # load xxx.npz
-S_file = './experiments/cp3_5/scut.npz'     #(*)
+S_file = './vis3/gp_dlnr.npz'     #(*)
 S = np.load(S_file)
 
 S_pw = S['S_pw']
 S_mcn = S['S_mcn']
 # use SeqSLAM2.0 toolbox from matlab, the similarity matrix has much nan value
-S_seq = loadmat('./experiments/cp3_4/seqslam/scut.mat')['S']    #(*)
+S_seq = loadmat('../cp3_4/seqslam/gp_dlnr.mat')['S']    #(*)
 tmp = np.isnan(S_seq)
 S_seq[tmp] = np.max(S_seq[~tmp])
 S_smcn = S['S_smcn']
 S_smcntf = S['S_smcntf']
 
+with open('../cp3_4/s_dd.pkl', 'rb') as f:
+    S_dd = pickle.load(f)
 
-dbfile = 'day/'     #(*)    database file
-qfile = 'dawn/'     #(*)    query file
+dbfile = 'day_left/'     #(*)    database file
+qfile = 'night_right/'     #(*)    query file
 dbn = len(os.listdir(root + dbfile))
 qn = len(os.listdir(root + qfile))
 qn = min(dbn, qn)
 
-# if the dataset is SCUT, uncomment following code
 numPicToShow = 10   #(*)
-picid = sample(range(0, qn // 4), numPicToShow)
-# otherwise, uncomment following code
-# picid = sample(range(0, qn), numPicToShow)
+if root.endswith('scut/'):
+    qn = qn // 4
+
+picid = sample(range(0, qn), numPicToShow)
+
 numpic = len(picid)
-img_format = '%d.jpg'   #(*)
-err = 1                 #(*)
-saveName = './experiments/cp3_5/vis2/scut.png'   #(*)
+img_format = 'Image%03d.jpg'   #(*)
+err = 3                 #(*)
+saveName = './vis2/gp.png'   #(*)
 
-# load groundtruth
-# if not the oxford robotcar dataset(or if not use gps as groundtruth)
-# uncomment following code
-gt = utils.makeGT(qn, err)
+if root.endswith('robotcar/'):
+    db_gps = np.load(root + 'gps_snow.npy')
+    q_gps = np.load(root + 'gps_night.npy')
+    _, gt = utils.getGpsGT(db_gps, q_gps, err)
+else:
+    gt = utils.getGroundTruthMatrix(qn, err)
 
-# otherwise uncomment following code
-# r = '../../datasets/oxford_robotcar/'
-# db_gps = np.load(r + 'gps_snow.npy')
-# q_gps = np.load(r + 'gps_night.npy')
-# _, gt = utils.getGpsGT(db_gps, q_gps, err)
 gtl = []
 for each in picid:
     gtl.append(list(np.where(gt[:, each])[0]))
 
 id_pw = np.argmax(S_pw[:, picid], axis=0)
+id_dd = np.argmax(S_dd[:, picid], axis=0)
 id_mcn = np.argmax(S_mcn[:, picid], axis=0)
 id_smcn = np.argmax(S_smcn[:, picid], axis=0)
-with open('./experiments/cp3_5/pathid.pkl', 'rb') as f:     #(*)
-    id_smcntf = pickle.load(f)['scut']
+with open('./vis3/pathid.pkl', 'rb') as f:     #(*)
+    id_smcntf = pickle.load(f)['gp']
 id_smcntf = [id_smcntf[x] for x in picid]
 id_seq = np.argmin(S_seq[:, picid], axis=0)
 
-numMethods = 5      #(*)    how many methords to show
+real_id_pw = np.copy(id_pw)
+real_id_mcn = np.copy(id_mcn)
+real_id_dd = np.copy(id_dd)
+real_id_smcn = np.copy(id_smcn)
+real_id_smcntf = np.copy(id_smcntf)
+real_id_seq = np.copy(id_seq)
+if root.endswith('scut/'):
+    real_id_pw *= 4
+    real_id_mcn *= 4
+    real_id_smcn *= 4
+    real_id_smcntf *= 4
+    real_id_seq *= 4
+    real_id_dd *= 4
+
+numMethods = 6      #(*)    how many methords to show
 
 # 一下代码一般不需要配置
 # --------------------------draw--------------------------------
@@ -92,7 +107,7 @@ vboard += (2*pad + img_size)
 
 hboard = 0
 for i in range(numpic):
-    img = cv2.imread(root + qfile + img_format % id_pw[i])
+    img = cv2.imread(root + qfile + img_format % real_id_pw[i])
     img = cv2.resize(img, (img_size, img_size))
     if id_pw[i] in gtl[i]:
         visImg[vboard:vboard + 2*pad + img_size,
@@ -110,7 +125,7 @@ vboard += (2*pad + img_size)
 
 hboard = 0
 for i in range(numpic):
-    img = cv2.imread(root + qfile + img_format % id_seq[i])
+    img = cv2.imread(root + qfile + img_format % real_id_seq[i])
     img = cv2.resize(img, (img_size, img_size))
     if id_seq[i] in gtl[i]:
         visImg[vboard:vboard + 2 * pad + img_size,
@@ -128,7 +143,7 @@ vboard += (2*pad + img_size)
 
 hboard = 0
 for i in range(numpic):
-    img = cv2.imread(root + qfile + img_format % id_mcn[i])
+    img = cv2.imread(root + qfile + img_format % real_id_mcn[i])
     img = cv2.resize(img, (img_size, img_size))
     if id_mcn[i] in gtl[i]:
         visImg[vboard:vboard + 2 * pad + img_size,
@@ -146,7 +161,25 @@ vboard += (2*pad + img_size)
 
 hboard = 0
 for i in range(numpic):
-    img = cv2.imread(root + qfile + img_format % id_smcn[i])
+    img = cv2.imread(root + qfile + img_format % real_id_dd[i])
+    img = cv2.resize(img, (img_size, img_size))
+    if id_dd[i] in gtl[i]:
+        visImg[vboard:vboard + 2 * pad + img_size,
+        hboard:hboard + 2 * pad + img_size, :] = np.array([[[0, 255, 0]]])
+    else:
+        visImg[vboard:vboard + 2 * pad + img_size,
+        hboard:hboard + 2 * pad + img_size, :] = np.array([[[0, 0, 255]]])
+
+    visImg[vboard + pad:vboard + pad + img_size,
+    hboard + pad:hboard + pad + img_size:] = img
+
+    hboard += (2*pad+img_size)
+
+vboard += (2*pad + img_size)
+
+hboard = 0
+for i in range(numpic):
+    img = cv2.imread(root + qfile + img_format % real_id_smcn[i])
     img = cv2.resize(img, (img_size, img_size))
     if id_smcn[i] in gtl[i]:
         visImg[vboard:vboard + 2 * pad + img_size,
@@ -164,7 +197,7 @@ vboard += (2*pad + img_size)
 
 hboard = 0
 for i in range(numpic):
-    img = cv2.imread(root + qfile + img_format % id_smcntf[i])
+    img = cv2.imread(root + qfile + img_format % real_id_smcntf[i])
     img = cv2.resize(img, (img_size, img_size))
     if id_smcntf[i] in gtl[i]:
         visImg[vboard:vboard + 2 * pad + img_size,
