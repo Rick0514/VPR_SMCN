@@ -187,11 +187,11 @@ This code visualizing top1 image retrieval. Use Gardens Point(day_left vs. night
 
 **Good one**
 
-<img src="./img/vis2_good.png" height=40%>
+<img src="./img/vis2_good.png" height=400>
 
 **Bad one**
 
-<img src="./img/vis2_bad.png" height=60%>
+<img src="./img/vis2_bad.png" height=400>
 
 **3. ex3_5_vis3.py**
 This code visualizing top10 image retrieval for one image. Use Oxford Robotcar(snow vs. night, really hard one so performance may be poor) with NetVLAD as demo. Some good and bad examples are shown below.
