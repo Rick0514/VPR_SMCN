@@ -176,7 +176,7 @@ This code is used for plotting PR curves. When you want to run this code, you sh
 
 <p align="middle">
 <img src="./img/pr_nd.png" height=300>
-<img src="./img/pr_gp.png" height=300>
+<img src="./img/pr_gp.png" height=300><br>
 <img src="./img/pr_ox.png" height=300>
 <img src="./img/pr_scut.png" height=300>
 </p>
@@ -198,11 +198,11 @@ This code visualizing top10 image retrieval for one image. Use Oxford Robotcar(s
 
 **Good one**
 
-<img src="./img/vis3_good.png" height=60%>
+<img src="./img/vis3_good.png" height=400>
 
 **Bad one**
 
-<img src="./img/vis3_bad.png" height=60%>
+<img src="./img/vis3_bad.png" height=400>
 
 ### Our Python Implementation of MCN vs. Original Implementation with Matlab 
 
