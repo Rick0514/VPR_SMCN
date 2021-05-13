@@ -187,7 +187,7 @@ This code visualizing top1 image retrieval. Use Gardens Point(day_left vs. night
 
 **Good one**
 
-<img src="./img/vis2_good.png" height=60%>
+<img src="./img/vis2_good.png" height=40%>
 
 **Bad one**
 
