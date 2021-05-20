@@ -1,4 +1,4 @@
-## Diploma Project Code
+## Code for Undergraduate Thesis
 
 ### Brief Introduction
 
