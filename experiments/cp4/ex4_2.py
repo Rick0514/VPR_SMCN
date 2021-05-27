@@ -1,7 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import utils
-import MCN, SMCN
+import main.utils as utils
+import main.MCN as MCN
+import main.SMCN as SMCN
 
 # ---------------------------- 说明 ----------------------------------
 # 将后端方法应用到环视数据集
@@ -9,8 +10,8 @@ import MCN, SMCN
 # 需要omni-SCUT数据集的描述子文件.npy
 # ---------------------------- 说明 ----------------------------------
 
-D1 = np.load('./experiments/cp4_1/alexnet/day_desc.npy')        #(*)
-D2 = np.load('./experiments/cp4_1/alexnet/dawn_desc.npy')       #(*)
+D1 = np.load('./experiments/cp4_1/netvlad/day_desc.npy')        #(*)
+D2 = np.load('./experiments/cp4_1/netvlad/dawn_desc.npy')       #(*)
 
 D1 = D1 / np.linalg.norm(D1, axis=0)
 D2 = D2 / np.linalg.norm(D2, axis=0)
@@ -19,7 +20,7 @@ num = D1.shape[0]
 omni_D1 = D1.reshape((num // 4, -1))
 omni_D2 = D2.reshape((num // 4, -1))
 
-GT = utils.makeGT(num // 4, 1)
+GT = utils.getGroundTruthMatrix(num // 4, 1)
 
 sig_D1 = D1[::4, :]
 sig_D2 = D2[::4, :]

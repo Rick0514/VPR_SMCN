@@ -19,7 +19,7 @@ Since March this year, I noticed the paper --《A neurologically inspired sequen
 
 **2. Applying to panoramic scene**
 
-Most of work discuss VPR on single-view datasets, which are collected with a monocular camera. However, it's worth noting that robots allow for a wider range of vision than human. That's why applying VPR methods to panoramic scene is an important but less attentive yet issue. We assume that the robot collect image via a rotated monocular camera. Each location takes 4 images evenly. We design experments to demonstrate the panoramic dataset is beneficial to VPR. We also apply our SMCN to new dataset.
+Most of work discuss VPR on single-view datasets, which are collected with a monocular camera. However, it's worth noting that robots allow for a wider range of vision than human. That's why applying VPR methods to panoramic scene is an important but less attentive yet issue. We assume that the robot collect image via a rotated monocular camera. Each location takes 4 images evenly. We design experments to demonstrate the panoramic dataset is beneficial to VPR. We also apply our SMCN to the new dataset.
 
 ## Setup
 
@@ -163,8 +163,7 @@ cp3_4 evaluate all methods with 2 front-end descripors on 4 datasets(10 combinat
 
 **5. cp4**
 
-cp4 simulate VPR on panoramic scene. ```ex4_1.py```对应4.3.1 环视数据集优越性的证明. ```ex4_2.py```对应4.3.2 后端方法在环视数据集上的应用。
-
+cp4 simulate VPR on panoramic scene. ```ex4_1.py```对应4.3.1 环视数据集优越性的证明. ```ex4_2.py```对应4.3.2 后端方法在环视数据集上的应用。Two Python scripts, namely ```get_result_for_video.py and omni_video.py``` are used for video visualization which is more intuitive.
 
 ### Visualization
 
@@ -204,6 +203,12 @@ This code visualizing top10 image retrieval for one image. Use Oxford Robotcar(s
 
 <img src="./img/vis3_bad.png" height=400>
 
+**4. vis_video.py**
+This script is from cp3_5 as well, which generates a demo video showing actual VPR application on 4 datasets we used in thesis. The demo video can be found in ```/video/backend.mp4```.
+
+**5. omni_video.py**
+This script is for intuitive demonstration for the superiority when using panoramic dataset. From the short video, we can tell that approximately 1% memory consumption assisted with our proposed backend method yeilds equal performance as full dimension NetVLAD descriptor. The demo video can be found in ```/video/omni.mp4```
+
 ### Our Python Implementation of MCN vs. Original Implementation with Matlab 
 
 In the experiment, our methods are compared with MCN of python version, which is also coded by us under guidance of original code in Matlab. It is very important to make sure our implementation should be consistent with original one. Here we prove it by experiment.
@@ -238,5 +243,5 @@ Our implementation even performs a bit better than the original version, as we c
 
 Python implementation is 2-fold slower than Matlab approximately. To be fair, we conduct all experiments with Python. The Runtime of MCN shows in our paper may be too long, which is in conflict with result shown in original paper. But it really SLOW!!! with python. Even if we shorten 2 times of MCN, our SMCN still greatly outperforms MCN with respect to computing efficiency. 
 
----
+
 

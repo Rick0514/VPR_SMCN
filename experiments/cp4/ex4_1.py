@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import utils
+import main.utils as utils
+import tools.visualize as vis
 
 # ---------------------------- 说明 ----------------------------------
 # 证明环视数据集的优越性，通过对环视描述子压缩，并和原维度单视图描述子比较AP
@@ -8,8 +9,8 @@ import utils
 # 需要omni-SCUT数据集的描述子文件.npy
 # ---------------------------- 说明 ----------------------------------
 
-D1 = np.load('./experiments/cp4_1/day_desc.npy')    #(*)
-D2 = np.load('./experiments/cp4_1/dawn_desc.npy')   #(*)
+D1 = np.load('./netvlad/day_desc.npy')    #(*)
+D2 = np.load('./netvlad/dawn_desc.npy')   #(*)
 
 D1 = D1 / np.linalg.norm(D1, axis=0)
 D2 = D2 / np.linalg.norm(D2, axis=0)
@@ -18,7 +19,7 @@ num = D1.shape[0]
 omni_D1 = D1.reshape((num // 4, -1))
 omni_D2 = D2.reshape((num // 4, -1))
 
-GT = utils.makeGT(num // 4, 1)
+GT = utils.getGroundTruthMatrix(num // 4, 1)
 
 sig_D1 = D1[::4, :]
 sig_D2 = D2[::4, :]
@@ -85,16 +86,16 @@ new_dims = 2 * (8192 * newr).astype(np.int)
 
 fig = plt.figure()
 ax1 = fig.add_subplot(111)
-le1, = ax1.plot(new_dims, omni_ap, color=utils.color[0], marker='o', linewidth=2, markersize=10)
-le2 = ax1.scatter([2 * 8192], [ap_pairwise], s=150, color=utils.color[1], marker='x')
-le3 = ax1.scatter([2 * 8192], [ap_slsbh], s=150, color=utils.color[2], marker='p')
+le1, = ax1.plot(new_dims, omni_ap, color=vis.color[0], marker='o', linewidth=2, markersize=10)
+le2 = ax1.scatter([2 * 8192], [ap_pairwise], s=150, color=vis.color[1], marker='x')
+le3 = ax1.scatter([2 * 8192], [ap_slsbh], s=150, color=vis.color[2], marker='p')
 
 ax1.set_ylabel('AP')
 ax1.set_ylim([0, 1])
 # ax1.set_title("Double Y axis")
 ax2 = ax1.twinx()  # this is the important function
-le4, = ax2.plot(new_dims, newr, color=utils.color[3], marker='*', linewidth=2, markersize=10)
-le5 = ax2.scatter([2 * 8192], [1.0], s=150, color=utils.color[2], marker='+')
+le4, = ax2.plot(new_dims, newr, color=vis.color[3], marker='*', linewidth=2, markersize=10)
+le5 = ax2.scatter([2 * 8192], [1.0], s=150, color=vis.color[2], marker='+')
 
 ax2.set_ylabel('Memory')
 ax1.set_xlabel('descriptor dimensions')
